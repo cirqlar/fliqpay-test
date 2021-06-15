@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import cn from "classnames";
 
-import "./index.css";
+import "./stepSlider.css";
 
 type StepSliderProps = { steps: string[]; current: number };
 
 function StepSlider({ steps, current }: StepSliderProps) {
-  const [currentStep] = useState(steps.length > current ? current : steps.length - 1);
+  const currentStep = useMemo(() => (steps.length > current ? current : steps.length - 1), [current, steps]);
 
   return (
     <div className="px-5 mt-7 sm:px-8 sm:left-20 sm:right-4 sm:absolute sm:top-0">
