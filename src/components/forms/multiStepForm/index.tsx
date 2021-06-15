@@ -17,7 +17,12 @@ type MultiStepFormProps = {
   executeAfter: (data: any) => any;
 };
 
-function MultiStepForm({ steps, currentStep: cs, executeBetween, executeAfter }: MultiStepFormProps) {
+function MultiStepForm({
+  steps,
+  currentStep: cs,
+  executeBetween = (num, data) => data,
+  executeAfter,
+}: MultiStepFormProps) {
   const [currentStep, setCurrentStep] = useState(cs ?? 0);
   const [currentComponentData, setCurrentComponentData] = useState<any>();
   const [numberOfSteps] = useState(steps.length);
@@ -35,7 +40,7 @@ function MultiStepForm({ steps, currentStep: cs, executeBetween, executeAfter }:
       if (currentStep < numberOfSteps - 1) {
         setCurrentStep(currentStep + 1);
         const newData = executeBetween && executeBetween(currentStep, data);
-        setCurrentComponentData(newData ?? data);
+        setCurrentComponentData(newData);
       } else {
         executeAfter && executeAfter(data);
       }
