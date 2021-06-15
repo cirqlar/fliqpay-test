@@ -26,13 +26,11 @@ function MultiStepForm({ steps, currentStep: cs, executeAfter }: MultiStepFormPr
   }, [steps]);
 
   const CurrentComponent = useMemo(() => {
-    console.log("Our component", currentStep);
     return steps[currentStep][1];
   }, [currentStep, steps]);
 
   const goToNextStep = useCallback(
     (data?: any) => {
-      console.log("It was called", currentStep, numberOfSteps);
       if (currentStep < numberOfSteps - 1) {
         setCurrentStep(currentStep + 1);
         setCurrentComponentData(data);
