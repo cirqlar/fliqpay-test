@@ -21,8 +21,15 @@ module.exports = {
           grayed: generateColor('color-primary-grayed'),
           muted: generateColor('color-primary-muted'),
           DEFAULT: generateColor('color-primary'),
+          tint: generateColor('color-primary-tint'),
           accent: generateColor('color-primary-accent'),
-        }
+        },
+        gray: {
+          lightest: generateColor('bg-gray-lightest'),
+          light: generateColor('bg-gray-light'),
+          base: generateColor('bg-gray-base'),
+          dark: generateColor('bg-gray-dark'),
+        },
       },
       borderColor: {
         gray: {

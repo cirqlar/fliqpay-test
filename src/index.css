@@ -27,6 +27,7 @@
     --color-primary-grayed: 135,126,158; /* #877E9E */
     --color-primary-muted: 169,140,246; /* #A98CF6 */
     --color-primary: 67,5,235; /* #4305EB */
+    --color-primary-tint: 68, 6, 236; /* #4406EC */
     --color-primary-accent: 44,12,106; /* #2C0C6A */
   }
 }
