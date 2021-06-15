@@ -12,7 +12,7 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
       <Header />
       <main className="w-full flex-auto sm:bg-gray-lightest">
         { children }
-        </main>
+      </main>
     </div>
   );
 }
