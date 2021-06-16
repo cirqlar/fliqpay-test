@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import cn from "classnames";
 
 import FormWrapper from "../formWrapper";
-import Input from "../input";
+import Input from "./input";
 
 function RecipientForm({ goToNext }: { goToNext: Function }) {
   const [insideEurope, setInsideEurope] = useState(true);
