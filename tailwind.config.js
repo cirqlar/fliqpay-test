@@ -24,6 +24,9 @@ module.exports = {
           tint: generateColor('color-primary-tint'),
           accent: generateColor('color-primary-accent'),
         },
+        secondary: {
+          DEFAULT: generateColor('color-secondary'),
+        },
         gray: {
           lightest: generateColor('bg-gray-lightest'),
           light: generateColor('bg-gray-light'),

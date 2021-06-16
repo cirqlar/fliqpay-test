@@ -49,7 +49,7 @@ function RecipientForm({ goToNext }: { goToNext: Function }) {
       </div>
       <button
         type="submit"
-        className="h-12 mt-7 w-full rounded-md font-medium text-sm bg-[#4305EB] disabled:bg-[#A98CF6] text-white"
+        className="h-12 mt-7 w-full rounded-md font-medium text-sm bg-primary disabled:bg-muted text-white"
         onClick={(e) => {
           e.preventDefault();
           goToNext();
