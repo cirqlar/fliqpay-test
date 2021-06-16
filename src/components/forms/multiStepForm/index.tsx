@@ -51,7 +51,7 @@ function MultiStepForm({
   return (
     <>
       <StepSlider steps={stepNames} current={currentStep} />
-      <div className="px-5 mt-7 bg-white sm:max-w-lg sm:mx-auto sm:border sm:border-gray-light sm:px-8 sm:pt-8 sm:pb-12">
+      <div className="px-5 my-7 bg-white sm:max-w-lg sm:mx-auto sm:border sm:border-gray-light sm:px-8 sm:pt-8 sm:pb-12 2xl:my-16">
         <CurrentComponent data={currentComponentData} goToNext={goToNextStep} />
       </div>
     </>
