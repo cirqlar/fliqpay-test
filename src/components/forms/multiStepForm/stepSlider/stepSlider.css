@@ -1,0 +1,9 @@
+.customGradientCenter {
+  background: linear-gradient(
+    to right,
+    theme("colors.primary.DEFAULT"),
+    theme("colors.gray.dark") 50%,
+    theme("colors.gray.base") 50%,
+    theme("colors.gray.base")
+  );
+}
