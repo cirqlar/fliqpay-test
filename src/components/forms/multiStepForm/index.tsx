@@ -4,7 +4,7 @@ import StepSlider from "./stepSlider";
 
 export type MultiStepChildProps = {
   goToNext: (data?: any) => void;
-  data?: any;
+  data: any;
   [key: string]: any;
 };
 
@@ -38,9 +38,9 @@ function MultiStepForm({
   const goToNextStep = useCallback(
     (data?: any) => {
       if (currentStepNumber < numberOfSteps - 1) {
-        setCurrentStepNumber(currentStepNumber + 1);
         const newData = executeBetween && executeBetween(data, stepNames[currentStepNumber]);
         setCurrentComponentData(newData);
+        setCurrentStepNumber(currentStepNumber + 1);
       } else {
         executeAfter && executeAfter(data, stepNames[currentStepNumber]);
       }

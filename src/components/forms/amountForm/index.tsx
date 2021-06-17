@@ -6,32 +6,7 @@ import FormWrapper from "../formWrapper";
 import CurrencyInput from "./currencyInput";
 import ConversionInfo from "./conversionInfo";
 
-type InputValue = { value: string; amount: number };
-
-function formatCurrency(text: string | number, previous: InputValue = { value: "", amount: 0 }) {
-  const textString = text.toString();
-  if (textString === "") return { value: textString, amount: 0 };
-
-  // Remove unwanted characters
-  if (/[^0123456789,.]/.test(textString)) return previous;
-
-  const splitText = textString.replaceAll(",", "").split(".");
-  // Reject number with more than one dot (.)
-  if (splitText.length - 1 > 1) return previous;
-  if (splitText[0].charAt(0) === "0") splitText[0] = splitText[0].slice(1);
-  // Reject decimals after two places
-  if (splitText[1]?.length > 2) splitText[1] = splitText[1].slice(0, 2);
-
-  const amount = parseFloat(splitText.join("."));
-
-  if (splitText[0].length > 3) {
-    // Add commas to front half (from: https://stackoverflow.com/a/2901298/12275857)
-    splitText[0] = splitText[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-  let finalText = splitText.join(".");
-
-  return { value: finalText, amount: amount };
-}
+import { formatCurrency } from "../../../lib/formatCurrency";
 
 function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
   const [sendAmount, setSendAmount] = useState({ value: "", amount: 0 });
@@ -63,15 +38,17 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
+
+    if (sendAmount.amount === 0) return;
     
     const data = {
       source_currency: sendCurrency,
       source_amount: sendAmount.amount,
-      transaction_fee: fee,
-      amount_to_convert: convert,
+      transaction_fee: formatCurrency(fee).amount,
+      amount_to_convert: formatCurrency(convert).amount,
       conversion_rate: currentRate,
       destination_currency: receiveCurrency,
-      destination_amount: receiveAmount,
+      destination_amount: receiveAmount.amount,
     };
     goToNext(data);
   }, [convert, currentRate, fee, goToNext, receiveAmount, receiveCurrency, sendAmount.amount, sendCurrency]);
@@ -108,7 +85,8 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
           Compare Rates
         </button>
         <button
-          className="h-12 w-full rounded-md font-medium text-sm bg-primary disabled:bg-muted text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:bg-primary-accent hover:bg-primary-accent"
+          className="h-12 w-full rounded-md font-medium text-sm bg-primary disabled:bg-primary-muted text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:bg-primary-accent hover:bg-primary-accent"
+          disabled={sendAmount.amount === 0}
         >
           Continue
         </button>

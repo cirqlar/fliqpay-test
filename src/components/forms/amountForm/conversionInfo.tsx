@@ -6,8 +6,8 @@ function ConversionInfo({
   rate,
   currency,
 }: {
-  fee: string;
-  convert: string;
+  fee: string | number;
+  convert: string | number;
   rate: string | number;
   currency: string;
 }) {
