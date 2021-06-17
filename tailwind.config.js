@@ -47,6 +47,7 @@ module.exports = {
           light: generateColor('text-gray-light'),
           base: generateColor('text-gray-base'),
           dark: generateColor('text-gray-dark'),
+          darkest: generateColor('text-gray-darkest'),
         },
       },
       backgroundColor: {

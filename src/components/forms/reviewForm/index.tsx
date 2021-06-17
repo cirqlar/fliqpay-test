@@ -14,6 +14,7 @@ function ReviewFormRow({ label, value, size = "regular" }: { label: string; valu
         className={cn({
           "text-xs": size === "regular",
           "text-base font-medium": size === "big",
+          "text-gray-darkest": true,
         })}
       >
         {value}
