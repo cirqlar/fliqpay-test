@@ -12,18 +12,18 @@ export type StepType = [string, React.ComponentType<MultiStepChildProps>];
 
 type MultiStepFormProps = {
   steps: StepType[];
-  currentStep?: number;
-  executeBetween?: (data: any, currentStep: number) => any;
-  executeAfter: (data: any, currentStep: number) => any;
+  currentStepNumber?: number;
+  executeBetween?: (data: any, currentStep: string) => any;
+  executeAfter: (data: any, currentStep: string) => any;
 };
 
 function MultiStepForm({
   steps,
-  currentStep: cs,
+  currentStepNumber: cs,
   executeBetween = (data) => data,
   executeAfter,
 }: MultiStepFormProps) {
-  const [currentStep, setCurrentStep] = useState(cs ?? 0);
+  const [currentStepNumber, setCurrentStepNumber] = useState(cs ?? 0);
   const [currentComponentData, setCurrentComponentData] = useState<any>();
   const [numberOfSteps] = useState(steps.length);
 
@@ -32,25 +32,25 @@ function MultiStepForm({
   }, [steps]);
 
   const CurrentComponent = useMemo(() => {
-    return steps[currentStep][1];
-  }, [currentStep, steps]);
+    return steps[currentStepNumber][1];
+  }, [currentStepNumber, steps]);
 
   const goToNextStep = useCallback(
     (data?: any) => {
-      if (currentStep < numberOfSteps - 1) {
-        setCurrentStep(currentStep + 1);
-        const newData = executeBetween && executeBetween(data, currentStep);
+      if (currentStepNumber < numberOfSteps - 1) {
+        setCurrentStepNumber(currentStepNumber + 1);
+        const newData = executeBetween && executeBetween(data, stepNames[currentStepNumber]);
         setCurrentComponentData(newData);
       } else {
-        executeAfter && executeAfter(data, currentStep);
+        executeAfter && executeAfter(data, stepNames[currentStepNumber]);
       }
     },
-    [currentStep, executeAfter, executeBetween, numberOfSteps]
+    [currentStepNumber, executeAfter, executeBetween, numberOfSteps, stepNames]
   );
 
   return (
     <>
-      <StepSlider steps={stepNames} current={currentStep} />
+      <StepSlider steps={stepNames} current={currentStepNumber} />
       <div className="px-5 my-7 bg-white sm:max-w-lg sm:mx-auto sm:border sm:border-gray-light sm:px-8 sm:pt-8 sm:pb-12 2xl:my-16">
         <CurrentComponent data={currentComponentData} goToNext={goToNextStep} />
       </div>
