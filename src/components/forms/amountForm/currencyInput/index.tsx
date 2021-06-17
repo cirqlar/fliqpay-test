@@ -1,24 +1,29 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   labelText: string;
-  defaultCountryCode?: string;
-  onCodeChange?: (code: string) => any;
+  defaultCurrency?: string;
+  onCurrencyChange?: (currency: string) => any;
 };
 
-function CurrencyInput({ labelText, defaultCountryCode, onCodeChange, id, ...inputProps }: CurrencyInputProps) {
-  const [countryCode, setCountryCode] = useState(defaultCountryCode ?? "us");
+function CurrencyInput({ labelText, defaultCurrency, onCurrencyChange, id, ...inputProps }: CurrencyInputProps) {
+  const [currency, setCurrency] = useState(defaultCurrency ?? "USD");
+  const [countryCode, setCountryCode] = useState("");
   const [options] = useState([
     { code: "us", currency: "USD" },
     { code: "eu", currency: "EUR" },
   ]);
 
+  useEffect(() => {
+    setCountryCode(options.find(({ currency: c }) => c === currency)?.code ?? countryCode);
+  }, [countryCode, currency, options]);
+
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = useCallback(
     (e) => {
-      setCountryCode(e.target.value);
-      if (onCodeChange) onCodeChange(e.target.value);
+      setCurrency(e.target.value);
+      if (onCurrencyChange) onCurrencyChange(e.target.value);
     },
-    [onCodeChange]
+    [onCurrencyChange]
   );
 
   return (
@@ -42,10 +47,10 @@ function CurrencyInput({ labelText, defaultCountryCode, onCodeChange, id, ...inp
           className="ml-1 sm:ml-3 bg-transparent text-xs font-medium flex-auto sm:text-sm"
           aria-label="Select Currency"
           onChange={handleSelectChange}
-          value={countryCode}
+          value={currency}
         >
-          {options.map(({ code, currency }) => (
-            <option key={code} value={code}>{currency}</option>
+          {options.map(({ currency }) => (
+            <option key={currency} value={currency}>{currency}</option>
           ))}
         </select>
       </div>

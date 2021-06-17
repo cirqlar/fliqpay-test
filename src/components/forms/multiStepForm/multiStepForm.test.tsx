@@ -43,11 +43,11 @@ it("should render steps correctly", () => {
   expect(screen.getByTestId("dataThree").textContent).toBe("Component Two Data");
   fireEvent.click(screen.getByText("Component Three Button"));
 
-  expect(executeAfter).toHaveBeenCalledWith("Component Three Data");
+  expect(executeAfter).toHaveBeenCalledWith("Component Three Data", 2);
 })
 
 it("should render steps correctly with executeBetween", () => {
-  const executeBetween = jest.fn((currentStep, data) => data + currentStep);
+  const executeBetween = jest.fn((data, currentStep) => data + currentStep);
   const executeAfter = jest.fn();
   act(() => {
     render(<MultiStepForm steps={steps} executeBetween={executeBetween} executeAfter={executeAfter} />);
@@ -56,15 +56,15 @@ it("should render steps correctly with executeBetween", () => {
   expect(screen.getByText("Component One Text")).toBeInTheDocument();
   fireEvent.click(screen.getByText("Component One Button"));
 
-  expect(executeBetween).lastCalledWith(0, "Component One Data");
+  expect(executeBetween).lastCalledWith("Component One Data",0);
   expect(screen.getByText("Component Two Text")).toBeInTheDocument();
   expect(screen.getByTestId("dataTwo").textContent).toBe("Component One Data0");
   fireEvent.click(screen.getByText("Component Two Button"));
 
-  expect(executeBetween).lastCalledWith(1, "Component Two Data");
+  expect(executeBetween).lastCalledWith("Component Two Data", 1);
   expect(screen.getByText("Component Three Text")).toBeInTheDocument();
   expect(screen.getByTestId("dataThree").textContent).toBe("Component Two Data1");
   fireEvent.click(screen.getByText("Component Three Button"));
 
-  expect(executeAfter).toHaveBeenCalledWith("Component Three Data");
+  expect(executeAfter).toHaveBeenCalledWith("Component Three Data", 2);
 })

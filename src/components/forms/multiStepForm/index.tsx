@@ -13,14 +13,14 @@ export type StepType = [string, React.ComponentType<MultiStepChildProps>];
 type MultiStepFormProps = {
   steps: StepType[];
   currentStep?: number;
-  executeBetween?: (currentStep: number, data: any) => any;
-  executeAfter: (data: any) => any;
+  executeBetween?: (data: any, currentStep: number) => any;
+  executeAfter: (data: any, currentStep: number) => any;
 };
 
 function MultiStepForm({
   steps,
   currentStep: cs,
-  executeBetween = (num, data) => data,
+  executeBetween = (data) => data,
   executeAfter,
 }: MultiStepFormProps) {
   const [currentStep, setCurrentStep] = useState(cs ?? 0);
@@ -39,10 +39,10 @@ function MultiStepForm({
     (data?: any) => {
       if (currentStep < numberOfSteps - 1) {
         setCurrentStep(currentStep + 1);
-        const newData = executeBetween && executeBetween(currentStep, data);
+        const newData = executeBetween && executeBetween(data, currentStep);
         setCurrentComponentData(newData);
       } else {
-        executeAfter && executeAfter(data);
+        executeAfter && executeAfter(data, currentStep);
       }
     },
     [currentStep, executeAfter, executeBetween, numberOfSteps]
