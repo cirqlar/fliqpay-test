@@ -4,6 +4,7 @@ import cn from "classnames";
 import FormWrapper from "../formWrapper";
 
 import { formatCurrency } from "../../../lib/formatCurrency";
+import Button from "../button";
 
 function ReviewFormRow({ label, value, size = "regular" }: { label: string; value: string; size?: "regular" | "big" }) {
   return (
@@ -40,7 +41,11 @@ function ReviewForm({ goToNext, data: d }: { goToNext: Function; data: any }) {
       <ReviewFormRow label="Total fees (included)" value={`${data.transaction_fee} ${data.source_currency}`} />
       <ReviewFormRow label="Amount we'll convert" value={`${data.amount_to_convert} ${data.source_currency}`} />
       <ReviewFormRow label="Guaranteed rate" value={data.conversion_rate} />
-      <ReviewFormRow label={`${data.first_name} gets`} value={`${data.destination_amount} ${data.destination_currency}`} size="big" />
+      <ReviewFormRow
+        label={`${data.first_name} gets`}
+        value={`${data.destination_amount} ${data.destination_currency}`}
+        size="big"
+      />
 
       <div className="mt-10" />
 
@@ -49,16 +54,18 @@ function ReviewForm({ goToNext, data: d }: { goToNext: Function; data: any }) {
       {data.swift && <ReviewFormRow label="SWIFT / BIC code" value={data.swift} />}
       <ReviewFormRow label="IBAN / Account number" value={data.iban_acc} />
 
-      <button
+      <Button
+        theme="secondary"
         type="submit"
-        className="h-12 mt-16 w-full rounded-md font-medium text-sm bg-secondary disabled:bg-[#A98CF6] text-white sm:mt-9"
+        className="mt-16 sm:mt-9"
+        disabled
         onClick={(e) => {
           e.preventDefault();
           // goToNext();
         }}
       >
         Continue
-      </button>
+      </Button>
     </FormWrapper>
   );
 }

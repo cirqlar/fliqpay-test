@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 
 import FormWrapper from "../formWrapper";
 import Input from "./input";
+import Button from "../button";
 
 function RecipientForm({ goToNext }: { goToNext: Function }) {
   const { register, handleSubmit, watch, formState } = useForm({
@@ -107,12 +108,7 @@ function RecipientForm({ goToNext }: { goToNext: Function }) {
           />
         </div>
       </div>
-      <button
-        type="submit"
-        className="h-12 mt-7 w-full rounded-md font-medium text-sm bg-primary disabled:bg-primary-muted text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:bg-primary-accent hover:bg-primary-accent"
-      >
-        Continue
-      </button>
+      <Button type="submit" className="mt-7">Continue</Button>
     </FormWrapper>
   );
 }

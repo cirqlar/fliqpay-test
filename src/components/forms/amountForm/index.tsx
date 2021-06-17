@@ -7,6 +7,7 @@ import CurrencyInput from "./currencyInput";
 import ConversionInfo from "./conversionInfo";
 
 import { formatCurrency } from "../../../lib/formatCurrency";
+import Button from "../button";
 
 function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
   const [sendAmount, setSendAmount] = useState({ value: "", amount: 0 });
@@ -36,22 +37,25 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
     [currentRate, sendAmount]
   );
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    if (sendAmount.amount === 0) return;
-    
-    const data = {
-      source_currency: sendCurrency,
-      source_amount: sendAmount.amount,
-      transaction_fee: formatCurrency(fee).amount,
-      amount_to_convert: formatCurrency(convert).amount,
-      conversion_rate: currentRate,
-      destination_currency: receiveCurrency,
-      destination_amount: receiveAmount.amount,
-    };
-    goToNext(data);
-  }, [convert, currentRate, fee, goToNext, receiveAmount, receiveCurrency, sendAmount.amount, sendCurrency]);
+      if (sendAmount.amount === 0) return;
+
+      const data = {
+        source_currency: sendCurrency,
+        source_amount: sendAmount.amount,
+        transaction_fee: formatCurrency(fee).amount,
+        amount_to_convert: formatCurrency(convert).amount,
+        conversion_rate: currentRate,
+        destination_currency: receiveCurrency,
+        destination_amount: receiveAmount.amount,
+      };
+      goToNext(data);
+    },
+    [convert, currentRate, fee, goToNext, receiveAmount, receiveCurrency, sendAmount.amount, sendCurrency]
+  );
 
   return (
     <FormWrapper title="One-time Payout" subtitle="Send money internationally" onSubmit={handleSubmit}>
@@ -63,7 +67,7 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
         onChange={handleSendAmountChange}
         onCurrencyChange={setSendCurrency}
       />
-      {(showComparison && sendAmount.amount > 0) && (
+      {showComparison && sendAmount.amount > 0 && (
         <ConversionInfo fee={fee} convert={convert} rate={currentRate} currency={sendCurrency} />
       )}
       <CurrencyInput
@@ -77,19 +81,13 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
       />
 
       <div className=" mt-11 sm:mt-9 grid gap-x-5 gap-y-3 sm:grid-cols-repeat">
-        <button 
-          type='button'
-          onClick={() => setShowComparison(true)}
-          className="h-12 rounded-md font-medium text-sm border border-primary text-primary disabled:border-primary-muted disabled:text-primary-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:bg-primary focus:text-white hover:bg-primary hover:text-white"
-        >
+        <Button theme="primary-outline" type="button" onClick={() => setShowComparison(true)}>
           Compare Rates
-        </button>
-        <button
-          className="h-12 w-full rounded-md font-medium text-sm bg-primary disabled:bg-primary-muted text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:bg-primary-accent hover:bg-primary-accent"
-          disabled={sendAmount.amount === 0}
-        >
+        </Button>
+
+        <Button disabled={sendAmount.amount === 0} type="submit">
           Continue
-        </button>
+        </Button>
       </div>
     </FormWrapper>
   );
