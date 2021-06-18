@@ -22,7 +22,7 @@ function Input({ labelText, id, register, options, errors, ...props }: InputProp
         {...props}
         {...(register ? register(id, options) : {})}
       />
-      {errors && errors[id] && <span>{ errors[id].message }</span>}
+      {errors && errors[id] && <span data-testid={id}>{ errors[id].message }</span>}
     </div>
   );
 }
