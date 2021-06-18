@@ -37,3 +37,4 @@ In order to prevent leakage of sensitive keys, a simple proxy server (which can 
 ## Assumptions
 
 The project assumes a value of `0.369` (when REACT_APP_TRANSACTION_FEE, is not set) for it's transaction fee percentage. 
+
