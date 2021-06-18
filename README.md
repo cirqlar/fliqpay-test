@@ -39,3 +39,4 @@ In order to prevent leakage of sensitive keys, a simple proxy server (which can 
 - The project assumes a value of `0.369` (when REACT_APP_TRANSACTION_FEE, is not set) for it's transaction fee percentage. 
 - During the conversion calculation, the transaction fee is rounded down and the final converted amount is rounded up (to two decimal places).
 - The send amount is limited to a hardcoded 1,000,000.00
+- The send amount is limited to two decimal places
