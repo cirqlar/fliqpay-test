@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import "./amountForm.css";
-
 import FormWrapper from "../formWrapper";
 import CurrencyInput from "./currencyInput";
 import ConversionInfo from "./conversionInfo";
@@ -16,30 +14,29 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
 
   const [sendCurrency, setSendCurrency] = useState("USD");
   const [receiveCurrency, setReceiveCurrency] = useState("EUR");
-  
+
   const [fee, setFee] = useState("");
   const [convert, setConvert] = useState("");
   const [currentRate, setCurrentRate] = useState(0);
-  const [fee_percent] = useState(parseFloat(process.env.REACT_APP_TRANSACTION_FEE ?? '0.369') / 100);
+  const [fee_percent] = useState(parseFloat(process.env.REACT_APP_TRANSACTION_FEE ?? "0.369") / 100);
 
   const { data, isLoading, isError } = useApi(
-    ["/latest?symbols=", sendCurrency, receiveCurrency], 
+    ["/latest?symbols=", sendCurrency, receiveCurrency],
     undefined,
     { refreshInterval: 60 * 60 * 1000 } // an hour
   );
-  
+
   React.useEffect(() => {
     if (!isLoading && !isError) {
-      const rate = data.rates[sendCurrency] / data.rates[receiveCurrency];
+      const rate = data.rates[receiveCurrency] / data.rates[sendCurrency];
       setCurrentRate(rate);
     }
   }, [data, isError, isLoading, receiveCurrency, sendCurrency]);
 
-
   const handleSendAmountChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
       const newAmount = validateText(e.target.value, sendAmount);
-      setSendAmount(newAmount);
+      if (textToAmount(newAmount) <= 1_000_000) setSendAmount(newAmount);
     },
     [sendAmount]
   );
@@ -84,7 +81,14 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
         onCurrencyChange={setSendCurrency}
       />
       {sendAmount !== "" && (
-        <ConversionInfo fee={fee} convert={convert} rate={currentRate} currency={sendCurrency} isLoading={isLoading} isError={isError} />
+        <ConversionInfo
+          fee={fee}
+          convert={convert}
+          rate={currentRate}
+          currency={sendCurrency}
+          isLoading={isLoading}
+          isError={isError}
+        />
       )}
       <CurrencyInput
         labelText="Recipient gets"

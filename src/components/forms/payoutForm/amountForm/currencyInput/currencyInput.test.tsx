@@ -25,6 +25,9 @@ it("should select country code properly", async () => {
   const currencyImg = screen.getByAltText(/usd flag/i) as HTMLImageElement;
   expect(currencyImg.src).toBe("https://wise.com/public-resources/assets/flags/rectangle/usd.png");
 
+  fireEvent.error(currencyImg);
+  expect(currencyImg.src).toContain("fallback");
+
   fireEvent.change(currencySelect, { target: { value: 'EUR' } });
 
   expect(currencySelect.value).toBe("EUR");

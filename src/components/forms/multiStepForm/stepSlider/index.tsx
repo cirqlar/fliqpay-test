@@ -1,8 +1,6 @@
 import React, { useMemo } from "react";
 import cn from "classnames";
 
-import "./stepSlider.css";
-
 type StepSliderProps = { steps: string[]; current: number };
 
 function StepSlider({ steps, current }: StepSliderProps) {
@@ -24,7 +22,7 @@ function StepSlider({ steps, current }: StepSliderProps) {
                     ? "bg-gray-base"
                     : idx + 1 === steps.length
                     ? "bg-gradient-to-r from-primary via-primary to-gray-dark"
-                    : "customGradientCenter")
+                    : "custom-gradient")
               )}
             >
               {currentStep === idx && (
