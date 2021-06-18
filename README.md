@@ -1,46 +1,39 @@
-# Getting Started with Create React App
+# Fliqpay Frontend Test
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). The project can be found hosted [here](https://fliqpay-test.vercel.app/).
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+### Clone the source code 
+```bash
+git clone https://github.com/cirqlar/fliqpay-test.git
+```
+### Install dependencies
+_Note: Ensure you have changed into the cloned directory before you run this command_
+```bash
+npm install
+```
+### Set up env
 
-### `npm start`
+Copy the contents of `.env.example` into a file named `.env.local` and complete it in with details.
+_Note: See the [API section](#api) for details about the API_
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Start development server
+```bash
+npm start
+```
+You can now view the app on [http://localhost:3000](http://localhost:3000).
+### Testing
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Use the following command to execute tests. To run in watch mode, omit the `-- --watchALl=false` flag
+```bash
+npm test -- --watchAll=false
+```
 
-### `npm test`
+## API
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+In order to prevent leakage of sensitive keys, a simple proxy server (which can be found at [https://github.com/cirqlar/fliqpay-api.git](https://github.com/cirqlar/fliqpay-api.git)) was used to forward requests to the [fixer](fixer.io) api after appending the api key. Visit the repository to find instructions on configuring it.
 
-### `npm run build`
+## Assumptions
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The project assumes a value of `0.369` (when REACT_APP_TRANSACTION_FEE, is not set) for it's transaction fee percentage. 
