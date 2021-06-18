@@ -41,8 +41,6 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
     (e) => {
       e.preventDefault();
 
-      if (sendAmount.amount === 0) return;
-
       const data = {
         source_currency: sendCurrency,
         source_amount: sendAmount.amount,
@@ -81,7 +79,7 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
       />
 
       <div className=" mt-11 sm:mt-9 grid gap-x-5 gap-y-3 sm:grid-cols-repeat">
-        <Button theme="primary-outline" type="button" onClick={() => setShowComparison(true)}>
+        <Button disabled={sendAmount.amount === 0} theme="primary-outline" type="button" onClick={() => setShowComparison(true)}>
           Compare Rates
         </Button>
 
