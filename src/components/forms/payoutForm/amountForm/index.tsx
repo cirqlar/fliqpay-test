@@ -19,7 +19,6 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
   const [fee, setFee] = useState("");
   const [convert, setConvert] = useState("");
   const [currentRate] = useState(1.14989);
-  const [showComparison, setShowComparison] = useState(false);
 
   const handleSendAmountChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
@@ -65,7 +64,7 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
         onChange={handleSendAmountChange}
         onCurrencyChange={setSendCurrency}
       />
-      {showComparison && sendAmount.amount > 0 && (
+      {sendAmount.amount > 0 && (
         <ConversionInfo fee={fee} convert={convert} rate={currentRate} currency={sendCurrency} />
       )}
       <CurrencyInput
@@ -79,7 +78,7 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
       />
 
       <div className=" mt-11 sm:mt-9 grid gap-x-5 gap-y-3 sm:grid-cols-repeat">
-        <Button disabled={sendAmount.amount === 0} theme="primary-outline" type="button" onClick={() => setShowComparison(true)}>
+        <Button disabled={sendAmount.amount === 0} theme="primary-outline" type="button">
           Compare Rates
         </Button>
 

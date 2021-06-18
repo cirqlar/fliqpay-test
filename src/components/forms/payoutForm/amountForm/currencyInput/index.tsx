@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from "react";
 
+import { useApi } from "../../../../../lib/api";
+
 type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   labelText: string;
   defaultCurrency?: string;
@@ -8,10 +10,18 @@ type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 function CurrencyInput({ labelText, defaultCurrency, onCurrencyChange, id, ...inputProps }: CurrencyInputProps) {
   const [currency, setCurrency] = useState(defaultCurrency ?? "USD");
-  const [options] = useState([
-    "USD",
-    "EUR",
-  ]);
+  const { data, isLoading, isError } = useApi("/symbols", undefined, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
+  const [options, setOptions] = useState<string[]>([]);
+
+  React.useEffect(() => {
+    if (!isLoading && !isError) {
+      const options = Object.keys(data.symbols);
+      setOptions(options);
+    }
+  }, [isLoading, data, isError]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = useCallback(
     (e) => {
@@ -37,15 +47,21 @@ function CurrencyInput({ labelText, defaultCurrency, onCurrencyChange, id, ...in
           src={currency ? `https://wise.com/public-resources/assets/flags/rectangle/${currency.toLowerCase()}.png` : ""}
           alt={currency ? `${currency} flag` : "Select Country"}
           className="w-[18px] h-[18px] rounded-full object-cover sm:w-5 sm:h-5"
+          onError={(e) =>
+            (e.currentTarget.src = "https://wise.com/public-resources/assets/flags/rectangle_fallback.png")
+          }
         />
         <select
           className="ml-1 sm:ml-3 bg-transparent text-xs font-medium flex-auto sm:text-sm"
           aria-label="Select Currency"
           onChange={handleSelectChange}
           value={currency}
+          disabled={isLoading || isError}
         >
-          {options.map(currency => (
-            <option key={currency} value={currency}>{currency}</option>
+          {options.map((currency) => (
+            <option key={currency} value={currency}>
+              {currency}
+            </option>
           ))}
         </select>
       </div>
