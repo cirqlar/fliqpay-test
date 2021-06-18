@@ -11,7 +11,7 @@ function PayoutForm() {
     ['Amount', AmountForm],
     ['Recipient', RecipientForm],
     ['Review', ReviewForm],
-    ['Pay', () => <div>To Be Implemented</div>],
+    ['Pay', () => <div>Placeholder Component. Thanks for checking this out</div>],
   ], []);
 
   const handleStepChange = useCallback((data, currentStep: string) => {
