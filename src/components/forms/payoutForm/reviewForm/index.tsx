@@ -3,7 +3,7 @@ import cn from "classnames";
 
 import FormWrapper from "../formWrapper";
 
-import { formatCurrency } from "../../../../lib/formatCurrency";
+import { amountToText } from "../../../../lib/formatCurrency";
 import Button from "../../shared/button";
 
 function ReviewFormRow({ label, value, size = "regular" }: { label: string; value: string; size?: "regular" | "big" }) {
@@ -27,10 +27,10 @@ function ReviewForm({ goToNext, data: d }: { goToNext: Function; data: any }) {
   const data = useMemo(
     () => ({
       ...d,
-      source_amount: formatCurrency(d.source_amount).value,
-      transaction_fee: formatCurrency(d.transaction_fee).value,
-      amount_to_convert: formatCurrency(d.amount_to_convert).value,
-      destination_amount: formatCurrency(d.destination_amount).value,
+      source_amount: amountToText(d.source_amount),
+      transaction_fee: amountToText(d.transaction_fee),
+      amount_to_convert: amountToText(d.amount_to_convert),
+      destination_amount: amountToText(d.destination_amount),
       first_name: d.fullname.split(" ")[0],
     }),
     [d]

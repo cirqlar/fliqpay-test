@@ -5,14 +5,44 @@ function ConversionInfo({
   convert,
   rate,
   currency,
+  isLoading,
+  isError,
 }: {
   fee: string | number;
   convert: string | number;
   rate: string | number;
   currency: string;
+  isLoading: boolean;
+  isError: any;
 }) {
   return (
     <div className="relative mt-4 -mb-1 ml-4 ">
+      {(isLoading || isError) && (
+        <div className="absolute -top-4 -bottom-4 inset-x-0 z-10 bg-white bg-opacity-60 flex justify-center items-center">
+          {isLoading ? (
+            // By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL
+            <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#4305EB">
+              <g fill="none" fillRule="evenodd">
+                <g transform="translate(1 1)" strokeWidth="2">
+                  <circle strokeOpacity=".5" cx="18" cy="18" r="18" />
+                  <path d="M36 18c0-9.94-8.06-18-18-18">
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      from="0 18 18"
+                      to="360 18 18"
+                      dur="1s"
+                      repeatCount="indefinite"
+                    />
+                  </path>
+                </g>
+              </g>
+            </svg>
+          ) : (
+            "An error has occurred"
+          )}
+        </div>
+      )}
       <div className="absolute bg-gray-base w-[2px] -top-4 -bottom-4 left-[9px]"></div>
 
       <div className="grid gap-3 justify-start infoGrid relative">

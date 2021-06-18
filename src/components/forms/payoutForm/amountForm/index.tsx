@@ -1,40 +1,58 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import "./amountForm.css";
 
 import FormWrapper from "../formWrapper";
 import CurrencyInput from "./currencyInput";
 import ConversionInfo from "./conversionInfo";
-
-import { formatCurrency } from "../../../../lib/formatCurrency";
 import Button from "../../shared/button";
 
+import { amountToText, textToAmount, validateText } from "../../../../lib/formatCurrency";
+import { useApi } from "../../../../lib/api";
+
 function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
-  const [sendAmount, setSendAmount] = useState({ value: "", amount: 0 });
-  const [receiveAmount, setReceiveAmount] = useState({ value: "", amount: 0 });
+  const [sendAmount, setSendAmount] = useState("");
+  const [receiveAmount, setReceiveAmount] = useState("");
 
   const [sendCurrency, setSendCurrency] = useState("USD");
   const [receiveCurrency, setReceiveCurrency] = useState("EUR");
-
+  
   const [fee, setFee] = useState("");
   const [convert, setConvert] = useState("");
-  const [currentRate] = useState(1.14989);
+  const [currentRate, setCurrentRate] = useState(0);
+
+  const { data, isLoading, isError } = useApi(
+    ["/latest?symbols=", sendCurrency, receiveCurrency], 
+    undefined,
+    { refreshInterval: 60 * 60 * 1000 } // an hour
+  );
+  
+  React.useEffect(() => {
+    if (!isLoading && !isError) {
+      const rate = data.rates[sendCurrency] / data.rates[receiveCurrency];
+      setCurrentRate(rate);
+    }
+  }, [data, isError, isLoading, receiveCurrency, sendCurrency]);
+
 
   const handleSendAmountChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
-      const newAmount = formatCurrency(e.target.value, sendAmount);
+      const newAmount = validateText(e.target.value, sendAmount);
       setSendAmount(newAmount);
-
-      const fee = Math.floor(newAmount.amount * 0.1 * 100) / 100;
-      setFee(formatCurrency(fee).value);
-      const convert = newAmount.amount - fee;
-      setConvert(formatCurrency(convert).value);
-      const newReceiveAmount = Math.ceil(convert * currentRate * 100) / 100;
-
-      setReceiveAmount(formatCurrency(newReceiveAmount));
     },
-    [currentRate, sendAmount]
+    [sendAmount]
   );
+
+  useEffect(() => {
+    const amount = textToAmount(sendAmount);
+    const fee = Math.floor(amount * 0.1 * 100) / 100;
+    setFee(amountToText(fee));
+    const convert = amount - fee;
+    setConvert(amountToText(convert));
+    const newReceiveAmount = Math.ceil(convert * currentRate * 100) / 100;
+
+    setReceiveAmount(amountToText(newReceiveAmount));
+  }, [currentRate, sendAmount]);
 
   const handleSubmit = useCallback(
     (e) => {
@@ -42,16 +60,16 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
 
       const data = {
         source_currency: sendCurrency,
-        source_amount: sendAmount.amount,
-        transaction_fee: formatCurrency(fee).amount,
-        amount_to_convert: formatCurrency(convert).amount,
+        source_amount: textToAmount(sendAmount),
+        transaction_fee: textToAmount(fee),
+        amount_to_convert: textToAmount(convert),
         conversion_rate: currentRate,
         destination_currency: receiveCurrency,
-        destination_amount: receiveAmount.amount,
+        destination_amount: textToAmount(receiveAmount),
       };
       goToNext(data);
     },
-    [convert, currentRate, fee, goToNext, receiveAmount, receiveCurrency, sendAmount.amount, sendCurrency]
+    [convert, currentRate, fee, goToNext, receiveAmount, receiveCurrency, sendAmount, sendCurrency]
   );
 
   return (
@@ -60,29 +78,29 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
         labelText="You send"
         id="send"
         name="send"
-        value={sendAmount.value}
+        value={sendAmount}
         onChange={handleSendAmountChange}
         onCurrencyChange={setSendCurrency}
       />
-      {sendAmount.amount > 0 && (
-        <ConversionInfo fee={fee} convert={convert} rate={currentRate} currency={sendCurrency} />
+      {sendAmount !== "" && (
+        <ConversionInfo fee={fee} convert={convert} rate={currentRate} currency={sendCurrency} isLoading={isLoading} isError={isError} />
       )}
       <CurrencyInput
         labelText="Recipient gets"
         id="gets"
         name="gets"
-        value={receiveAmount.value}
+        value={receiveAmount}
         readOnly
         defaultCurrency="EUR"
         onCurrencyChange={setReceiveCurrency}
       />
 
       <div className=" mt-11 sm:mt-9 grid gap-x-5 gap-y-3 sm:grid-cols-repeat">
-        <Button disabled={sendAmount.amount === 0} theme="primary-outline" type="button">
+        <Button disabled={sendAmount === ""} theme="primary-outline" type="button">
           Compare Rates
         </Button>
 
-        <Button disabled={sendAmount.amount === 0} type="submit">
+        <Button disabled={sendAmount === ""} type="submit">
           Continue
         </Button>
       </div>

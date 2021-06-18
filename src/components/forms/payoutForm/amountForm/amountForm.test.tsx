@@ -39,14 +39,20 @@ it("should display conversion info correctly", async () => {
   });
 
   // wait until component has finished loading
+  const selectCurrency = screen.getAllByLabelText(/Select Currency/i)[0];
   await waitFor(() => {
-    expect(screen.getAllByLabelText(/Select Currency/i)[0]).not.toHaveAttribute("disabled")
+    expect(selectCurrency).not.toHaveAttribute("disabled")
   });
 
   expect(screen.queryByText("Transfer fee")).not.toBeInTheDocument();
 
   const send = screen.getByLabelText("You send");
   fireEvent.change(send, { target: { value: "1000" } });
+
+  fireEvent.change(selectCurrency, { target: { value: "EUR" }});
+  await waitFor(() => {
+    expect(selectCurrency).not.toHaveAttribute("disabled")
+  });
 
   expect(screen.queryByText("Transfer fee")).toBeInTheDocument();
 });

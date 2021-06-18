@@ -4,7 +4,6 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
 
-
 // Global fetch mocks
 
 global.fetch = (url) => {
@@ -12,6 +11,12 @@ global.fetch = (url) => {
   switch (url) {
     case "/symbols":
       data = { symbols: { USD: "US Dollar", EUR: "Eurp" } };
+      break;
+    case "/latest?symbols=USD,EUR":
+      data = { rates: { USD: 1.19098, EUR: 1 } };
+      break;
+    case "/latest?symbols=EUR,EUR":
+      data = { rates: { EUR: 1 } };
       break;
     default:
       console.log(url);
