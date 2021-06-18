@@ -11,7 +11,7 @@ function PayoutForm() {
     ['Amount', AmountForm],
     ['Recipient', RecipientForm],
     ['Review', ReviewForm],
-    ['Pay', () => <div></div>],
+    ['Pay', () => <div>To Be Implemented</div>],
   ], []);
 
   const handleStepChange = useCallback((data, currentStep: string) => {
@@ -20,7 +20,7 @@ function PayoutForm() {
       case 'Recipient':
         const newData = {
           ...formData,
-          ...(data ?? {})
+          ...(data)
         }
         setFormData(newData);
         return newData;
