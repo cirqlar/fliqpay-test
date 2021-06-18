@@ -1,8 +1,15 @@
-import React from "react"
-import { render } from "@testing-library/react"
+import React from "react";
+import { render, act, screen, waitFor } from "@testing-library/react";
 
-import Index from './index';
+import Index from "./index";
 
-test("should render", () => {
-  render(<Index />);
-})
+it("should render", async () => {
+  act(() => {
+    render(<Index />);
+  });
+
+  // wait until component has finished loading
+  await waitFor(() => {
+    expect(screen.getAllByLabelText(/Select Currency/i)[0]).not.toHaveAttribute("disabled")
+  });
+});

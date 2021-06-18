@@ -3,17 +3,15 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 
 import PayoutForm from ".";
 
-it("should render without errors", () => {
-  act(() => {
-    render(<PayoutForm />);
-  });
-});
-
 it("should pass, store data properly", async () => {
   act(() => {
     render(<PayoutForm />);
   });
 
+  // wait until component has finished loading
+  await waitFor(() => {
+    expect(screen.getAllByLabelText(/Select Currency/i)[0]).not.toHaveAttribute("disabled")
+  });
 
   const send = screen.getByLabelText('You send');
   fireEvent.change(send, { target: { value: '1000' } });
