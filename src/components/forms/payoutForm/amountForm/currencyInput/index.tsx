@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   labelText: string;
@@ -8,15 +8,10 @@ type CurrencyInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 
 function CurrencyInput({ labelText, defaultCurrency, onCurrencyChange, id, ...inputProps }: CurrencyInputProps) {
   const [currency, setCurrency] = useState(defaultCurrency ?? "USD");
-  const [countryCode, setCountryCode] = useState("");
   const [options] = useState([
-    { code: "us", currency: "USD" },
-    { code: "eu", currency: "EUR" },
+    "USD",
+    "EUR",
   ]);
-
-  useEffect(() => {
-    setCountryCode(options.find(({ currency: c }) => c === currency)?.code ?? countryCode);
-  }, [countryCode, currency, options]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = useCallback(
     (e) => {
@@ -39,8 +34,8 @@ function CurrencyInput({ labelText, defaultCurrency, onCurrencyChange, id, ...in
       />
       <div className="h-full w-[28%] px-3 bg-gray-light flex items-center">
         <img
-          src={countryCode ? `https://flagcdn.com/h20/${countryCode}.png` : ""}
-          alt={countryCode ? `${countryCode} flag` : "Select Country"}
+          src={currency ? `https://wise.com/public-resources/assets/flags/rectangle/${currency.toLowerCase()}.png` : ""}
+          alt={currency ? `${currency} flag` : "Select Country"}
           className="w-[18px] h-[18px] rounded-full object-cover sm:w-5 sm:h-5"
         />
         <select
@@ -49,7 +44,7 @@ function CurrencyInput({ labelText, defaultCurrency, onCurrencyChange, id, ...in
           onChange={handleSelectChange}
           value={currency}
         >
-          {options.map(({ currency }) => (
+          {options.map(currency => (
             <option key={currency} value={currency}>{currency}</option>
           ))}
         </select>

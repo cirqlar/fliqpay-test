@@ -19,13 +19,13 @@ it("should select country code properly", () => {
 
   const currencySelect = screen.getByLabelText(/Select Currency/i) as HTMLSelectElement;
   expect(currencySelect.value).toBe("USD");
-  const currencyImg = screen.getByAltText(/us flag/i) as HTMLImageElement;
-  expect(currencyImg.src).toBe("https://flagcdn.com/h20/us.png");
+  const currencyImg = screen.getByAltText(/usd flag/i) as HTMLImageElement;
+  expect(currencyImg.src).toBe("https://wise.com/public-resources/assets/flags/rectangle/usd.png");
 
   fireEvent.change(currencySelect, { target: { value: 'EUR' } });
 
   expect(currencySelect.value).toBe("EUR");
-  expect(currencyImg.src).toBe("https://flagcdn.com/h20/eu.png");
+  expect(currencyImg.src).toBe("https://wise.com/public-resources/assets/flags/rectangle/eur.png");
   expect(selectCurrency).toHaveBeenCalledWith("EUR");
 })
 
