@@ -34,6 +34,8 @@ npm test -- --watchAll=false
 
 In order to prevent leakage of sensitive keys, a simple proxy server (which can be found at [https://github.com/cirqlar/fliqpay-api.git](https://github.com/cirqlar/fliqpay-api.git)) was used to forward requests to the [fixer](fixer.io) api after appending the api key. Visit the repository to find instructions on configuring it.
 
-## Assumptions
+## Assumptions and Relevant Information
 
-The project assumes a value of `0.369` (when REACT_APP_TRANSACTION_FEE, is not set) for it's transaction fee percentage. 
+- The project assumes a value of `0.369` (when REACT_APP_TRANSACTION_FEE, is not set) for it's transaction fee percentage. 
+- During the conversion calculation, the transaction fee is rounded down and the final converted amount is rounded up (to two decimal places).
+- The send amount is limited to a hardcoded 1,000,000.00
