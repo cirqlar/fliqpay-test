@@ -20,6 +20,7 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
   const [fee, setFee] = useState("");
   const [convert, setConvert] = useState("");
   const [currentRate, setCurrentRate] = useState(0);
+  const [fee_percent] = useState(parseFloat(process.env.REACT_APP_TRANSACTION_FEE ?? '0.369') / 100);
 
   const { data, isLoading, isError } = useApi(
     ["/latest?symbols=", sendCurrency, receiveCurrency], 
@@ -45,14 +46,14 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
 
   useEffect(() => {
     const amount = textToAmount(sendAmount);
-    const fee = Math.floor(amount * 0.1 * 100) / 100;
+    const fee = Math.floor(amount * fee_percent * 100) / 100;
     setFee(amountToText(fee));
     const convert = amount - fee;
     setConvert(amountToText(convert));
     const newReceiveAmount = Math.ceil(convert * currentRate * 100) / 100;
 
     setReceiveAmount(amountToText(newReceiveAmount));
-  }, [currentRate, sendAmount]);
+  }, [currentRate, fee_percent, sendAmount]);
 
   const handleSubmit = useCallback(
     (e) => {
@@ -96,11 +97,11 @@ function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
       />
 
       <div className=" mt-11 sm:mt-9 grid gap-x-5 gap-y-3 sm:grid-cols-repeat">
-        <Button disabled={sendAmount === ""} theme="primary-outline" type="button">
+        <Button disabled={sendAmount === "" || isLoading || isError} theme="primary-outline" type="button">
           Compare Rates
         </Button>
 
-        <Button disabled={sendAmount === ""} type="submit">
+        <Button disabled={sendAmount === "" || isLoading || isError} type="submit">
           Continue
         </Button>
       </div>
