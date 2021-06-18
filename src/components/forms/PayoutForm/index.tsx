@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 
 import AmountForm from "./amountForm";
-import MultiStepForm, { StepType } from "./multiStepForm";
+import MultiStepForm, { StepType } from "../multiStepForm";
 import RecipientForm from "./recipientForm";
 import ReviewForm from "./reviewForm";
 

@@ -6,8 +6,8 @@ import FormWrapper from "../formWrapper";
 import CurrencyInput from "./currencyInput";
 import ConversionInfo from "./conversionInfo";
 
-import { formatCurrency } from "../../../lib/formatCurrency";
-import Button from "../button";
+import { formatCurrency } from "../../../../lib/formatCurrency";
+import Button from "../../shared/button";
 
 function AmountForm({ goToNext }: { goToNext: (data?: any) => any }) {
   const [sendAmount, setSendAmount] = useState({ value: "", amount: 0 });

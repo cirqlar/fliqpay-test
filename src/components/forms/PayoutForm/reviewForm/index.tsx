@@ -3,8 +3,8 @@ import cn from "classnames";
 
 import FormWrapper from "../formWrapper";
 
-import { formatCurrency } from "../../../lib/formatCurrency";
-import Button from "../button";
+import { formatCurrency } from "../../../../lib/formatCurrency";
+import Button from "../../shared/button";
 
 function ReviewFormRow({ label, value, size = "regular" }: { label: string; value: string; size?: "regular" | "big" }) {
   return (

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import FormWrapper from "../formWrapper";
 import Input from "./input";
-import Button from "../button";
+import Button from "../../shared/button";
 
 function RecipientForm({ goToNext }: { goToNext: Function }) {
   const { register, handleSubmit, watch, formState } = useForm({
