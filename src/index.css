@@ -40,5 +40,19 @@
     .grid-cols-repeat {
       grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     }
+
+    .custom-gradient {
+      background: linear-gradient(
+        to right,
+        theme("colors.primary.DEFAULT"),
+        theme("colors.gray.dark") 50%,
+        theme("colors.gray.base") 50%,
+        theme("colors.gray.base")
+      );
+    }
+
+    .info-grid {
+      grid-template-columns: 20px auto auto;
+    }
   }
 }

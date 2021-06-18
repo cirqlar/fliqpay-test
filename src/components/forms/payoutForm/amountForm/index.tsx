@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import "./amountForm.css";
-
 import FormWrapper from "../formWrapper";
 import CurrencyInput from "./currencyInput";
 import ConversionInfo from "./conversionInfo";

@@ -45,7 +45,7 @@ function ConversionInfo({
       )}
       <div className="absolute bg-gray-base w-[2px] -top-4 -bottom-4 left-[9px]"></div>
 
-      <div className="grid gap-3 justify-start infoGrid relative">
+      <div className="grid gap-3 justify-start info-grid relative">
         <div className="w-5 h-5 rounded-full bg-gray-base flex items-center justify-center text-base">
           <svg width="6" height="2" viewBox="0 0 6 2" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5.39475 1.464V0.168H0.386748V1.464H5.39475Z" fill="#8B8F96" />
