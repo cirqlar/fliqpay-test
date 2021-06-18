@@ -1,5 +1,5 @@
 import React from "react";
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import ReviewForm from ".";
 
@@ -18,9 +18,12 @@ it("should render without errors", () => {
     iban_acc: "ALDKNEDLDKEND",
     swift: "SBDOENDDOE",
   };
+  const goToNext = jest.fn();
   act(() => {
-    render(<ReviewForm data={mockData} goToNext={() => {}} />);
+    render(<ReviewForm data={mockData} goToNext={goToNext} />);
   });
 
   expect(screen.getByText("John gets")).toBeInTheDocument();
+  fireEvent.click(screen.getByText("Continue"));
+  expect(goToNext).toHaveBeenCalled();
 });

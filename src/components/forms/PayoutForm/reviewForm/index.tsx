@@ -24,17 +24,17 @@ function ReviewFormRow({ label, value, size = "regular" }: { label: string; valu
 }
 
 function ReviewForm({ goToNext, data: d }: { goToNext: Function; data: any }) {
-  const data = useMemo(() => {
-    console.log("We reached here first?", d);
-    return {
+  const data = useMemo(
+    () => ({
       ...d,
       source_amount: formatCurrency(d.source_amount).value,
       transaction_fee: formatCurrency(d.transaction_fee).value,
       amount_to_convert: formatCurrency(d.amount_to_convert).value,
       destination_amount: formatCurrency(d.destination_amount).value,
       first_name: d.fullname.split(" ")[0],
-    };
-  }, [d]);
+    }),
+    [d]
+  );
 
   return (
     <FormWrapper title="Review details of your transfer">
@@ -59,10 +59,9 @@ function ReviewForm({ goToNext, data: d }: { goToNext: Function; data: any }) {
         theme="secondary"
         type="submit"
         className="mt-16 sm:mt-9"
-        disabled
         onClick={(e) => {
           e.preventDefault();
-          // goToNext();
+          goToNext();
         }}
       >
         Continue
