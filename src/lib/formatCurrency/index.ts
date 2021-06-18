@@ -5,7 +5,6 @@ export function textToAmount(text: string) {
   const splitText = text.replaceAll(",", "").split(".");
 
   if (splitText.length - 1 > 1) throw Error("invalid token");
-  if (splitText[0].charAt(0) === "0") splitText[0] = splitText[0].slice(1);
 
   return parseFloat(splitText.join("."));
 }
