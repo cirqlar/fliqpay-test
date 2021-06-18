@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Clone the source code 
 ```bash
-npm install
+git clone https://github.com/cirqlar/fliqpay-test.git
 ```
 ### Install dependencies
 _Note: Ensure you have changed into the cloned directory before you run this command_
